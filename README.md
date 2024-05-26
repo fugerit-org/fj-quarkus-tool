@@ -22,6 +22,34 @@ Start in dev mode
 mvn compile quarkus:dev -Duser.timezone=UTC -Dfile.encoding=UTF-8
 ```
 
+## Java package version
+
+build :
+
+```shell script
+mvn package -P buildreact
+```
+
+and run :
+
+```shell script
+java -jar target/quarkus-app/quarkus-run.jar
+```
+
+## Java package uber jar version
+
+build :
+
+```shell script
+mvn package -Dquarkus.package.type=uber-jar -P buildreact
+```
+
+and run :
+
+```shell script
+java -jar target/fj-daogen-quarkus-demo-*-runner.jar
+```
+
 ## Project creation script
 
 ```shell script
