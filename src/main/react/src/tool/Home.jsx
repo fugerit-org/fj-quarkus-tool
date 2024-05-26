@@ -45,7 +45,7 @@ class Home extends Component {
 							<ArticleIcon />
 						</Avatar>
 					</ListItemAvatar>
-					<Link to={homepage + "/tool_fun/excel_to_properties"}>
+					<Link to={homepage + "/tool_fun/excel_to_props"}>
 						<ListItemText primary="Convert excel to properties."
 									  secondary='One column for the key, one column for the value' />
 					</Link>
