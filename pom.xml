@@ -1,22 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.fugerit.java.tool</groupId>
+
+    <groupId>org.fugerit.java.universe</groupId>
     <artifactId>fj-quarkus-tool</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <properties>
-        <compiler-plugin.version>3.12.1</compiler-plugin.version>
-        <maven.compiler.release>21</maven.compiler.release>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-        <quarkus.platform.version>3.8.4</quarkus.platform.version>
+        <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
+        <quarkus.platform.version>3.11.0</quarkus.platform.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.2.5</surefire-plugin.version>
+        <!-- front end runtime -->
+        <src.react>src/main/react</src.react>
+        <npm.build.script>build</npm.build.script>
+        <fe.dist.dir>src/main/resources/META-INF/resources/fj-quarkus-tool/home</fe.dist.dir>
+        <exec-plugin.version>3.2.0</exec-plugin.version>
+        <antrun-plugin.version>3.1.0</antrun-plugin.version>
+        <fj-service-helper-bom-version>1.4.0</fj-service-helper-bom-version>
+        <kotlin.version>2.0.0</kotlin.version>
+        <fj-universe-version>2.3.1</fj-universe-version>
     </properties>
 
+    <scm>
+        <connection>scm:git:git://github.com/fugerit-org/fj-quarkus-tool.git</connection>
+        <developerConnection>scm:git:ssh://github.com/fugerit-org/fj-quarkus-tool.git</developerConnection>
+        <url>https://github.com/fugerit-org/fj-quarkus-tool.git</url>
+        <tag>HEAD</tag>
+    </scm>
+    
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -26,18 +43,28 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.fugerit.java.universe</groupId>
+                <artifactId>fj-universe</artifactId>
+                <version>${fj-universe-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.fugerit.java</groupId>
+                <artifactId>fj-service-helper-bom</artifactId>
+                <version>${fj-service-helper-bom-version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-config-yaml</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.quarkiverse.groovy</groupId>
-            <artifactId>quarkus-groovy-junit5</artifactId>
-            <version>3.8.1</version>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-rest-jackson</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -45,7 +72,7 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+            <artifactId>quarkus-webjars-locator</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -57,8 +84,20 @@
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.fugerit.java</groupId>
+            <artifactId>emp-service-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.fugerit.java</groupId>
+            <artifactId>fj-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -78,7 +117,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${compiler-plugin.version}</version>
                 <configuration>
                     <compilerArgs>
                         <arg>-parameters</arg>
@@ -87,7 +125,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire-plugin.version}</version>
                 <configuration>
                     <systemPropertyVariables>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
@@ -104,19 +141,44 @@
                             <goal>integration-test</goal>
                             <goal>verify</goal>
                         </goals>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
+                                <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                                <maven.home>${maven.home}</maven.home>
+                            </systemPropertyVariables>
+                        </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <shortRevisionLength>10</shortRevisionLength>
+                            <attach>true</attach>
+                            <!--make it available for jar/war classpath resource -->
+                            <addOutputDirectoryToResources>true</addOutputDirectoryToResources>
+                        </configuration>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>create-metadata</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.2</version>
                 <configuration>
-                    <systemPropertyVariables>
-                        <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
-                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-                        <maven.home>${maven.home}</maven.home>
-                    </systemPropertyVariables>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
     <profiles>
         <profile>
             <id>native</id>
@@ -127,8 +189,145 @@
             </activation>
             <properties>
                 <skipITs>false</skipITs>
-                <quarkus.native.enabled>true</quarkus.native.enabled>
+                <quarkus.package.type>native</quarkus.package.type>
             </properties>
         </profile>
+
+        <profile>
+            <id>test</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+
+            </build>
+        </profile>
+
+        <profile>
+            <id>testquarkus</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+
+            </build>
+        </profile>
+
+
+        <profile>
+
+            <id>buildreact</id>
+
+            <build>
+
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${exec-plugin.version}</version>
+                        <executions>
+                            <!-- Required: The following will ensure `npm install` is called
+                         before anything else during the 'Default Lifecycle' -->
+                            <execution>
+                                <id>npm install (initialize)</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>initialize</phase>
+                                <configuration>
+                                    <executable>npm</executable>
+                                    <arguments>
+                                        <argument>install</argument>
+                                        <argument>--legacy-peer-deps</argument>
+                                    </arguments>
+                                    <workingDirectory>${src.react}</workingDirectory>
+                                </configuration>
+                            </execution>
+                            <!-- Required: The following will ensure `npm install` is called
+                         before anything else during the 'Clean Lifecycle' -->
+                            <execution>
+                                <id>npm install (clean)</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>pre-clean</phase>
+                                <configuration>
+                                    <executable>npm</executable>
+                                    <arguments>
+                                        <argument>install</argument>
+                                        <argument>--legacy-peer-deps</argument>
+                                    </arguments>
+                                    <workingDirectory>${src.react}</workingDirectory>
+                                </configuration>
+                            </execution>
+
+                            <!-- Required: This following calls `npm run build` where 'build' is
+                         the script name I used in my project, change this if yours is
+                             different -->
+                            <execution>
+                                <id>npm run build (compile)</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <executable>npm</executable>
+                                    <arguments>
+                                        <argument>run</argument>
+                                        <argument>${npm.build.script}</argument>
+                                    </arguments>
+                                    <workingDirectory>${src.react}</workingDirectory>
+                                </configuration>
+                            </execution>
+
+                        </executions>
+
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>${antrun-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>copy front end</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <delete dir="${fe.dist.dir}" />
+                                        <mkdir dir="${fe.dist.dir}" />
+                                        <copy todir="${fe.dist.dir}">
+                                            <fileset dir="${src.react}/dist">
+                                                <include name="**/*.*" />
+                                            </fileset>
+                                        </copy>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+
+            </build>
+
+        </profile>
+
     </profiles>
+
 </project>

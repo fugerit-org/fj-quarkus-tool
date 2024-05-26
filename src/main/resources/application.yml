@@ -1,2 +1,18 @@
 greeting:
   message: "hello"
+
+quarkus:
+  http:
+    port: 8080
+    host: 0.0.0.0
+
+    header:
+      "X-Content-Type-Options":
+        value:  nosniff
+      Pragma:
+        value: no-cache
+      Cache-Control:
+        value: no-cache
+
+  resteasy-reactive:
+    path: /fj-quarkus-tool/api
