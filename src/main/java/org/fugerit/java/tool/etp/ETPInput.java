@@ -1,6 +1,5 @@
 package org.fugerit.java.tool.etp;
 
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import lombok.Getter;
 import lombok.Setter;

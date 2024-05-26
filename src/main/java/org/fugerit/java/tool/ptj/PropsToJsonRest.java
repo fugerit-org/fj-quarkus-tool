@@ -12,6 +12,7 @@ import org.fugerit.java.core.function.SafeFunction;
 import org.fugerit.java.core.util.MapEntry;
 import org.fugerit.java.core.util.checkpoint.CheckpointUtils;
 import org.fugerit.java.tool.RestHelper;
+import org.fugerit.java.tool.util.HelperSortedProperties;
 
 import java.io.StringReader;
 import java.util.*;
@@ -21,15 +22,15 @@ import java.util.stream.Collectors;
 @Path("/props_to_json")
 public class PropsToJsonRest {
 
-    private static final String FORMAT_PROPERTIES = "PROPERTIES";
+    public static final String FORMAT_PROPERTIES = "PROPERTIES";
 
-    private static final String FORMAT_JSON1 = "JSON1";
+    public static final String FORMAT_JSON1 = "JSON1";
 
-    private static final String FORMAT_JSON2 = "JSON2";
+    public static final String FORMAT_JSON2 = "JSON2";
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    private List<MapEntry<String,String>> convert1(final LoadSortedProperties current ) {
+    private List<MapEntry<String,String>> convert1(final HelperSortedProperties current ) {
         return current.getSortedKeys().stream().map(
                 k -> new MapEntry<>( k, current.getProperty( k ) )
         ).collect( Collectors.toList() );
@@ -39,7 +40,7 @@ public class PropsToJsonRest {
         PTJOutput output = new PTJOutput();
         SafeFunction.apply( () -> {
             long time = System.currentTimeMillis();
-            LoadSortedProperties props = new LoadSortedProperties();
+            HelperSortedProperties props = new HelperSortedProperties();
             try (StringReader reader = new StringReader( input.getDocContent() )) {
                 props.load( reader );
             }
@@ -62,9 +63,7 @@ public class PropsToJsonRest {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/convert")
     public Response document(PTJInput input) {
-        return RestHelper.defaultHandle( () -> {
-            return Response.ok().entity( this.convert( input ) ).build();
-        } );
+        return RestHelper.defaultHandle( () -> Response.ok().entity( this.convert( input ) ).build() );
     }
 
 }

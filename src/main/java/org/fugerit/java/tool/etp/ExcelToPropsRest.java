@@ -12,7 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.fugerit.java.core.function.SafeFunction;
 import org.fugerit.java.tool.RestHelper;
-import org.fugerit.java.tool.ptj.LoadSortedProperties;
+import org.fugerit.java.tool.util.HelperSortedProperties;
 import org.jboss.resteasy.reactive.multipart.FileUpload;
 
 import java.io.File;
@@ -30,7 +30,7 @@ public class ExcelToPropsRest {
         SafeFunction.apply( () -> {
             FileUpload file = input.getFile();
             File tempFile = file.uploadedFile().toFile();
-            SaveSortedProperties props = new SaveSortedProperties();
+            HelperSortedProperties props = new HelperSortedProperties();
             try ( FileInputStream fis = new FileInputStream( tempFile);
                   Workbook workbook = new XSSFWorkbook( fis ) ) {
                 Sheet sheet = workbook.getSheetAt( input.getSheetIndex() );

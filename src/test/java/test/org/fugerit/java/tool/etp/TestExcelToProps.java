@@ -1,5 +1,6 @@
 package test.org.fugerit.java.tool.etp;
 
+import io.quarkus.test.junit.QuarkusTest;
 import org.fugerit.java.core.function.SafeFunction;
 import org.fugerit.java.core.io.StreamIO;
 import org.fugerit.java.core.lang.helpers.ClassHelper;
@@ -7,7 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class TestExcelToProps {
+@QuarkusTest
+class TestExcelToProps {
 
     private byte[] getInput( String path ) {
         return SafeFunction.get( () ->  {
@@ -21,10 +23,7 @@ public class TestExcelToProps {
         given()
                 .when()
                 .multiPart( "file", getInput( "test.xlsx" ) )
-                .multiPart( "sheetIndex", "0" )
-                .multiPart( "keyColumnIndex", "0" )
-                .multiPart( "valueColumnIndex", "0" )
-                .post( "/fj-quarkus-tool/api/excel_to_props/convert" )
+                .post( "/fj-quarkus-tool/api/excel_to_props/convert/0/0/0/1" )
                 .then()
                 .statusCode(200);
     }
