@@ -34,31 +34,9 @@ class Home extends Component {
 							<ModeEditOutlineIcon />
 						</Avatar>
 					</ListItemAvatar>
-					<Link to={homepage + "/doc_fun/doc_xml_editor"}>
-						<ListItemText primary="Doc editor (FTL, XML, JSON or YAML) and generator (HTML, PDF, XLSX or Markdwon)"
-							secondary='Demonstrates the Venus (fj-doc) core capabilities for generating documents in various formats' />
-					</Link>
-				</ListItem>
-				<ListItem key='2'>
-					<ListItemAvatar>
-						<Avatar>
-							<ArticleIcon />
-						</Avatar>
-					</ListItemAvatar>
-					<Link to={homepage + "/doc_fun/doc_conversion"}>
-						<ListItemText primary="Source document conversion from/to XML/JSON/YAML"
-							secondary='Allow conversion of the Venus Doc source documents in supported formats.' />
-					</Link>
-				</ListItem>
-				<ListItem key='3'>
-					<ListItemAvatar>
-						<Avatar>
-							<DoneIcon />
-						</Avatar>
-					</ListItemAvatar>
-					<Link to={homepage + "/doc_fun/doc_type_validator"}>
-						<ListItemText primary="Doc validation testing playground (fj-doc-val-*)"
-							secondary='Allow upload and validation in supported formats.' />
+					<Link to={homepage + "/tool_fun/props_to_json"}>
+						<ListItemText primary="Convert property document (java) to JSON."
+							secondary='Allow for duplication check' />
 					</Link>
 				</ListItem>
 			</List>

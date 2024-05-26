@@ -2,6 +2,12 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.fugerit.java.universe</groupId>
+        <artifactId>fj-universe</artifactId>
+        <version>2.3.1</version>
+    </parent>
+
     <groupId>org.fugerit.java.universe</groupId>
     <artifactId>fj-quarkus-tool</artifactId>
     <version>1.0.0</version>
@@ -44,11 +50,6 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.fugerit.java.universe</groupId>
-                <artifactId>fj-universe</artifactId>
-                <version>${fj-universe-version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.fugerit.java</groupId>
                 <artifactId>fj-service-helper-bom</artifactId>
                 <version>${fj-service-helper-bom-version}</version>
@@ -73,6 +74,10 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-webjars-locator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-openapi</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
