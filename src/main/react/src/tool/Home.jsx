@@ -39,6 +39,17 @@ class Home extends Component {
 							secondary='Allow for duplication check' />
 					</Link>
 				</ListItem>
+				<ListItem key='1'>
+					<ListItemAvatar>
+						<Avatar>
+							<ArticleIcon />
+						</Avatar>
+					</ListItemAvatar>
+					<Link to={homepage + "/tool_fun/excel_to_properties"}>
+						<ListItemText primary="Convert excel to properties."
+									  secondary='One column for the key, one column for the value' />
+					</Link>
+				</ListItem>
 			</List>
 			
 			<Grid container spacing={1} style={{ padding: 10 }}>

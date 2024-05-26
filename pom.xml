@@ -98,6 +98,10 @@
             <artifactId>fj-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.fugerit.java</groupId>
+            <artifactId>fj-doc-mod-poi</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>

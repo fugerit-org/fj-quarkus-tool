@@ -10,6 +10,7 @@ import {
 import Home from './tool/Home';
 import Version from './tool/Version';
 import PropsToJson from './tool/PropsToJson';
+import ExcelToProperties from './tool/ExcelToProperties';
 import { Dialog, DialogTitle, Button, Grid, MenuItem, Select } from "@mui/material";
 
 const homepage = '/fj-quarkus-tool/home';
@@ -58,12 +59,14 @@ class Tool extends Component {
 					<Grid container spacing={4} columns={{ xs: 16 }}>
 					  <Grid item xs={4}><Link to={homepage}><Button color="primary">Home</Button></Link></Grid>
 						<Grid item xs={4}><Link to={homepage + "/tool_fun/props_to_json"}><Button color="primary">Properties to JSON</Button></Link></Grid>
+						<Grid item xs={4}><Link to={homepage + "/tool_fun/excel_to_props"}><Button color="primary">Excel to Properties</Button></Link></Grid>
 					</Grid>
 
 					{dialog}
 	
 					<Routes>
 						<Route path={homepage + "/tool_fun/props_to_json"} element={<PropsToJson handleOpenDialog={this.handleOpenDialog} />} />
+						<Route path={homepage + "/tool_fun/excel_to_props"} element={<ExcelToProperties handleOpenDialog={this.handleOpenDialog} />} />
 						<Route path="*" element={<Home />} />
 					</Routes>
 

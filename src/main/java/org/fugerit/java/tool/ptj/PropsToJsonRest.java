@@ -8,15 +8,12 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import lombok.Getter;
 import org.fugerit.java.core.function.SafeFunction;
-import org.fugerit.java.core.util.CheckDuplicationProperties;
 import org.fugerit.java.core.util.MapEntry;
 import org.fugerit.java.core.util.checkpoint.CheckpointUtils;
 import org.fugerit.java.tool.RestHelper;
 
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -69,22 +66,5 @@ public class PropsToJsonRest {
             return Response.ok().entity( this.convert( input ) ).build();
         } );
     }
-
-}
-
-class LoadSortedProperties extends CheckDuplicationProperties {
-
-    @Override
-    public synchronized Object put(Object key, Object value) {
-        this.sortedKeys.add( (String) key );
-        return super.put(key, value);
-    }
-
-    public LoadSortedProperties() {
-        this.sortedKeys = new LinkedHashSet<>();
-    }
-
-    @Getter
-    private Collection<String> sortedKeys;
 
 }
