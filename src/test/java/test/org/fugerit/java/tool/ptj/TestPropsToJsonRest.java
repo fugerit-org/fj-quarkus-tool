@@ -57,6 +57,8 @@ class TestPropsToJsonRest {
             for ( int k=0; k<testId.length; k++ ) {
                 byte[] data = getInput( "200_"+testId[0]+".json" );
                 PTJInput input = MAPPER.readValue( data, PTJInput.class );
+                input.setCheckDuplication( false );
+                log.info( "checkDuplication : {}", input.getCheckDuplication() );
                 PTJOutput output = PropsToJsonRest.convert( input );
                 Assertions.assertNotNull( output );
             }

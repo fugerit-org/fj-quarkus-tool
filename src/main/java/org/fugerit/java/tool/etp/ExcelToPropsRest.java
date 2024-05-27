@@ -65,7 +65,6 @@ public class ExcelToPropsRest {
                             @PathParam( "valueColumnIndex" ) int valueColumnIndex,
                             @PathParam( "skipHeaderLines" ) int skipHeaderLines ) {
         return RestHelper.defaultHandle( () -> {
-            input.setSheetIndex( sheetIndex );
             FileUpload file = input.getFile();
             File tempFile = file.uploadedFile().toFile();
             try ( FileInputStream fis = new FileInputStream( tempFile ) ) {
