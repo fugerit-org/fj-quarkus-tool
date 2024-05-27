@@ -30,13 +30,13 @@ public class PropsToJsonRest {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    private List<MapEntry<String,String>> convert1(final HelperSortedProperties current ) {
+    private static List<MapEntry<String,String>> convert1(final HelperSortedProperties current ) {
         return current.getSortedKeys().stream().map(
                 k -> new MapEntry<>( k, current.getProperty( k ) )
         ).collect( Collectors.toList() );
     }
 
-    private PTJOutput convert( PTJInput input ) {
+    public static PTJOutput convert( PTJInput input ) {
         PTJOutput output = new PTJOutput();
         SafeFunction.apply( () -> {
             long time = System.currentTimeMillis();
@@ -44,7 +44,7 @@ public class PropsToJsonRest {
             try (StringReader reader = new StringReader( input.getDocContent() )) {
                 props.load( reader );
             }
-            List<MapEntry<String,String>> entries = this.convert1( props );
+            List<MapEntry<String,String>> entries = convert1( props );
             output.setDocOutput( MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString( entries ) );
             StringBuilder info = new StringBuilder();
             if ( !props.getDuplications().isEmpty() ) {
@@ -63,7 +63,7 @@ public class PropsToJsonRest {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/convert")
     public Response document(PTJInput input) {
-        return RestHelper.defaultHandle( () -> Response.ok().entity( this.convert( input ) ).build() );
+        return RestHelper.defaultHandle( () -> Response.ok().entity( convert( input ) ).build() );
     }
 
 }
