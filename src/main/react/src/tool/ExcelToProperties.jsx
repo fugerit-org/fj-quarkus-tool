@@ -17,7 +17,7 @@ class ExcelToProperties extends Component {
 			validationResult: null,
 			sheetIndex: 0,
 			keyColumnIndex : 0,
-			valueColumnIndex : 0,
+			valueColumnIndex : 1,
 			skipHeaderLines: 1,
 			docOutput: ''
 		}

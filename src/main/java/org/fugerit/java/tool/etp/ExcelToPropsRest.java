@@ -17,6 +17,7 @@ import org.jboss.resteasy.reactive.multipart.FileUpload;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.Iterator;
 
@@ -25,29 +26,27 @@ import java.util.Iterator;
 @Path(  "/excel_to_props")
 public class ExcelToPropsRest {
 
-    private ETPOutput convertWorker( ETPInput input ) {
+    public static ETPOutput convertWorker(InputStream excelStream, int sheetIndex, int keyColumnIndex, int valueColumnIndex, int skipHeaderLines) {
         ETPOutput output = new ETPOutput();
+        log.info( "sheetIndex : {}, keyColumnIndex : {}, valueColumnIndex : {}, skipHeaderLines : {}", sheetIndex, keyColumnIndex, valueColumnIndex, skipHeaderLines );
         SafeFunction.apply( () -> {
-            FileUpload file = input.getFile();
-            File tempFile = file.uploadedFile().toFile();
             HelperSortedProperties props = new HelperSortedProperties();
-            try ( FileInputStream fis = new FileInputStream( tempFile);
-                  Workbook workbook = new XSSFWorkbook( fis ) ) {
-                Sheet sheet = workbook.getSheetAt( input.getSheetIndex() );
+            try ( Workbook workbook = new XSSFWorkbook( excelStream ) ) {
+                Sheet sheet = workbook.getSheetAt( sheetIndex);
                 Iterator<Row> rows = sheet.rowIterator();
                 int count = 0;
                 while ( rows.hasNext() ) {
                     Row row = rows.next();
-                    if ( count >= input.getSkipHeaderLines() ) {
-                        Cell cellKey = row.getCell( input.getKeyColumnIndex() );
-                        Cell cellValue = row.getCell( input.getValueColumnIndex() );
+                    if ( count >= skipHeaderLines ) {
+                        Cell cellKey = row.getCell( keyColumnIndex );
+                        Cell cellValue = row.getCell( valueColumnIndex );
                         props.put( cellKey.getStringCellValue(), cellValue.getStringCellValue() );
                     }
                     count++;
                 }
             }
             try (StringWriter writer = new StringWriter() ) {
-                props.store( writer, "Converted from excel" );
+                props.store( writer,  "Converted from excel (https://docs.fugerit.org/fj-quarkus-tool/home/index.html)" );
                 log.info( "props : {}", props );
                 output.setDocOutput( writer.toString() );
             }
@@ -67,12 +66,12 @@ public class ExcelToPropsRest {
                             @PathParam( "skipHeaderLines" ) int skipHeaderLines ) {
         return RestHelper.defaultHandle( () -> {
             input.setSheetIndex( sheetIndex );
-            input.setKeyColumnIndex( keyColumnIndex );
-            input.setValueColumnIndex( valueColumnIndex );
-            input.setSkipHeaderLines( skipHeaderLines );
-            log.info( "input : {}", input );
-            ETPOutput output = this.convertWorker( input );
-            return Response.ok().entity( output ).build();
+            FileUpload file = input.getFile();
+            File tempFile = file.uploadedFile().toFile();
+            try ( FileInputStream fis = new FileInputStream( tempFile ) ) {
+                ETPOutput output = convertWorker( fis, sheetIndex, keyColumnIndex, valueColumnIndex, skipHeaderLines );
+                return Response.ok().entity( output ).build();
+            }
         } );
     }
 
