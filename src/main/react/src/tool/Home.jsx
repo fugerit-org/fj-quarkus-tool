@@ -26,7 +26,7 @@ class Home extends Component {
 
 	render() {
 		return <Fragment>
-			<h1>This project provide tools based on <a href="https://github.com/fugerit-org/">Fugerit Org</a> project.</h1>
+			<h1>This project provides tools based on <a href="https://github.com/fugerit-org/">Fugerit Org</a> project.</h1>
 			<List sx={{ width: '100%', maxWidth: 800 }}>
 				<ListItem key='1'>
 					<ListItemAvatar>
