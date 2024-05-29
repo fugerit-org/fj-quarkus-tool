@@ -1,0 +1,115 @@
+[ {
+  "name" : "jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.openpackaging.contenttype.CTDefault",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getContentType",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getExtension",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.openpackaging.contenttype.CTOverride",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getContentType",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getPartName",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.openpackaging.contenttype.CTTypes",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getDefaultOrOverride",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.openpackaging.contenttype.ContentType",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.openpackaging.contenttype.ContentTypeManager",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getContentType",
+    "parameterTypes" : [ "org.docx4j.openpackaging.parts.PartName" ]
+  }, {
+    "name" : "getDefaultContentType",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getOverrideContentType",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getPart",
+    "parameterTypes" : [ "java.lang.String", "org.docx4j.relationships.Relationship" ]
+  }, {
+    "name" : "getPartNameOverridenByContentType",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ]
+}, {
+  "name" : "org.docx4j.openpackaging.contenttype.ContentTypes",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.openpackaging.contenttype.ObjectFactory",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.openpackaging.contenttype.package-info",
+  "fields" : [ ],
+  "methods" : [ ]
+} ]

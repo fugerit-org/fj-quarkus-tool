@@ -1,0 +1,8 @@
+{
+  "bundles": [ {"name": "org.docx4j.org.apache.xalan.res.XSLTErrorResources"}],
+  "resources": {
+    "includes": [
+      { "pattern": "\\Qorg/docx4j/jaxb/mc-preprocessor.xslt\\E" }
+    ]
+  }
+}

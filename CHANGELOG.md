@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+###
+
+- basic native setup
+
+### Changed
+
+- Moved from Apache POI to docx4j for excel reading
+
 ## [0.1.1] - 2024-05-27
 
 ### Changed

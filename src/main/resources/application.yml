@@ -1,3 +1,15 @@
+"%prod":
+
+  quarkus:
+
+    log:
+      level: INFO
+      min-level: INFO
+
+    # native configuration
+    native:
+      additional-build-args: -H:ReflectionConfigurationFiles=custom-reflect-config.json,-H:ResourceConfigurationFiles=custom-resource-config.json
+
 quarkus:
   http:
     port: 8080

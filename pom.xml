@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.fugerit.java.universe</groupId>
         <artifactId>fj-universe</artifactId>
-        <version>2.3.1</version>
+        <version>2.3.3</version>
     </parent>
 
     <groupId>org.fugerit.java.universe</groupId>
@@ -104,8 +104,9 @@
             <artifactId>fj-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.fugerit.java</groupId>
-            <artifactId>fj-doc-mod-poi</artifactId>
+            <groupId>org.docx4j</groupId>
+            <artifactId>docx4j-JAXB-ReferenceImpl</artifactId>
+            <version>11.4.11</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -191,6 +192,25 @@
                 <configuration>
                     <skip>true</skip>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.fugerit.java</groupId>
+                <artifactId>native-helper-maven-plugin</artifactId>
+                <version>1.4.4</version>
+                <executions>
+                    <execution>
+                        <id>generate-native-configuration</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <nativeHelperConfigPath>src/main/config/native-helper-config.yaml</nativeHelperConfigPath>
+                            <reflectConfigJsonOutputPath>${project.build.outputDirectory}/custom-reflect-config.json</reflectConfigJsonOutputPath>
+                            <warnOnError>false</warnOnError>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

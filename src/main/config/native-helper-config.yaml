@@ -1,0 +1,24 @@
+# native-helper-graalvm generation configuration
+---
+createParentDirectory: true
+generate:
+  - packageName: org.fugerit.java.tool.etp
+    mode: getters_setters
+  - packageName: org.fugerit.java.tool.ptj
+    mode: getters_setters
+  - packageName: org.docx4j.org.apache.xalan.templates
+    mode: getters_setters
+    jarPackageDiscovery: true
+  - packageName: org.docx4j.org.apache.xalan.processor
+    mode: getters_setters
+    jarPackageDiscovery: true
+  - packageName: org.docx4j.org.apache.xpath
+    mode: getters_setters
+    jarPackageDiscovery: true
+merge:
+  - reflectConfigPath: src/main/config/docx4j-core-reflect-config.json
+    mode: failOnError
+  - reflectConfigPath: src/main/config/docx4j-openxml-objects-reflect-config.json
+    mode: failOnError
+  - reflectConfigPath: src/main/config/docx4j-openxml-objects-reflect-config-sml.json
+    mode: failOnError

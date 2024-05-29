@@ -5,21 +5,25 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.docx4j.openpackaging.contenttype.CTTypes;
+import org.docx4j.openpackaging.packages.SpreadsheetMLPackage;
+import org.docx4j.openpackaging.parts.SpreadsheetML.WorkbookPart;
+import org.docx4j.openpackaging.parts.SpreadsheetML.WorksheetPart;
 import org.fugerit.java.core.function.SafeFunction;
+import org.fugerit.java.core.function.SimpleValue;
 import org.fugerit.java.tool.RestHelper;
 import org.fugerit.java.tool.util.HelperSortedProperties;
 import org.jboss.resteasy.reactive.multipart.FileUpload;
+import org.xlsx4j.org.apache.poi.ss.usermodel.DataFormatter;
+import org.xlsx4j.sml.Cell;
+import org.xlsx4j.sml.SheetData;
+import org.xlsx4j.sml.Worksheet;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.util.Iterator;
+import java.util.List;
 
 @Slf4j
 @ApplicationScoped
@@ -30,21 +34,24 @@ public class ExcelToPropsRest {
         ETPOutput output = new ETPOutput();
         log.info( "sheetIndex : {}, keyColumnIndex : {}, valueColumnIndex : {}, skipHeaderLines : {}", sheetIndex, keyColumnIndex, valueColumnIndex, skipHeaderLines );
         SafeFunction.apply( () -> {
+            new CTTypes();
             HelperSortedProperties props = new HelperSortedProperties();
-            try ( Workbook workbook = new XSSFWorkbook( excelStream ) ) {
-                Sheet sheet = workbook.getSheetAt( sheetIndex);
-                Iterator<Row> rows = sheet.rowIterator();
-                int count = 0;
-                while ( rows.hasNext() ) {
-                    Row row = rows.next();
-                    if ( count >= skipHeaderLines ) {
-                        Cell cellKey = row.getCell( keyColumnIndex );
-                        Cell cellValue = row.getCell( valueColumnIndex );
-                        props.put( cellKey.getStringCellValue(), cellValue.getStringCellValue() );
-                    }
-                    count++;
+            SpreadsheetMLPackage spreadsheetMLPackage = SpreadsheetMLPackage.load( excelStream );
+            WorkbookPart workbookPart = spreadsheetMLPackage.getWorkbookPart();
+            WorksheetPart sheet = workbookPart.getWorksheet( sheetIndex );
+            Worksheet worksheet = sheet.getJaxbElement();
+            SheetData sheetData = worksheet.getSheetData();
+            SimpleValue<Integer> count = new SimpleValue<>(0);
+            DataFormatter formatter = new DataFormatter();
+            sheetData.getRow().forEach( r -> {
+                count.setValue( count.getValue()+1 );
+                if ( count.getValue() > skipHeaderLines ) {
+                    List<Cell> cells = r.getC();
+                    Cell cellKey = cells.get( keyColumnIndex );
+                    Cell cellValue = cells.get( valueColumnIndex );
+                    props.put( formatter.formatCellValue( cellKey ), formatter.formatCellValue( cellValue ) );
                 }
-            }
+            } );
             try (StringWriter writer = new StringWriter() ) {
                 props.store( writer,  "Converted from excel (https://docs.fugerit.org/fj-quarkus-tool/home/index.html)" );
                 log.info( "props : {}", props );

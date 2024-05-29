@@ -1,0 +1,170 @@
+[ {
+  "name" : "org.docx4j.relationships.ObjectFactory",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.relationships.Relationship",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getId",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getParent",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getTarget",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getTargetMode",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getType",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.relationships.Relationships",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getParent",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getRelationship",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.relationships.package-info",
+  "fields" : [ ],
+  "methods" : [ ]
+}, {
+  "name" : "org.docx4j.mce.AlternateContent",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getChoice",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getFallback",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getIgnorable",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getMustUnderstand",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getParent",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getProcessContent",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.mce.ArrayListMce",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ "java.lang.Object" ]
+  }, {
+    "name" : "get",
+    "parameterTypes" : [ "int" ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getFirst",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getLast",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.mce.AlternateContent$Choice",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getAny",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getIgnorable",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getMustUnderstand",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getParent",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getProcessContent",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getRequires",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.mce.AlternateContent$Fallback",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getAny",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getIgnorable",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getMustUnderstand",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getParent",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getProcessContent",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.mce.ObjectFactory",
+  "fields" : [ ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClass",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.docx4j.mce.package-info",
+  "fields" : [ ],
+  "methods" : [ ]
+} ]
